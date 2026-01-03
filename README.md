@@ -1,2 +1,2 @@
 # serverless-playground
-This repository contains multiple examples and tests documented while learning about serverless architecture, and building use-cases with AWS services.
+This repository contains multiple examples, some of them from **Serverless framework**  example demo and some custom examples of my own, while learning how to build services and applications using serverless services from **AWS**.
