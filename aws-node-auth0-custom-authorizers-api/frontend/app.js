@@ -1,13 +1,13 @@
 /* global window document localStorage fetch alert */
 
 // Fill in with your values
-const AUTH0_CLIENT_ID = "K9Jr002bM1glR8KwTHHlncOL3y1opbog";
-const AUTH0_DOMAIN = "dev-u3qujn2rgkea1xsh.jp.auth0.com";
+const AUTH0_CLIENT_ID = "xxxxxxxx";
+const AUTH0_DOMAIN = "xxxxxxxx";
 const AUTH0_CALLBACK_URL = window.location.href; // eslint-disable-line
 const PUBLIC_ENDPOINT =
-  "https://apk39regwf.execute-api.ap-south-1.amazonaws.com/dev/api/public";
+  "https://xxxx.execute-api.ap-south-1.amazonaws.com/dev/api/public";
 const PRIVATE_ENDPOINT =
-  "https://apk39regwf.execute-api.ap-south-1.amazonaws.com/dev/api/private";
+  "https://xxxx.execute-api.ap-south-1.amazonaws.com/dev/api/private";
 
 // initialize auth0 lock
 const lock = new Auth0Lock(AUTH0_CLIENT_ID, AUTH0_DOMAIN, {
