@@ -1,0 +1,17 @@
+org: xxxx-xxxx-org
+
+app: todo-app
+
+service: todo
+
+prvoider:
+  name: aws
+  runtime: node20.x
+
+
+functions:
+  api:
+
+
+resources:
+  DynamoDB:
