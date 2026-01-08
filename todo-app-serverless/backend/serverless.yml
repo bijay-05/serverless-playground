@@ -1,17 +1,90 @@
-org: xxxx-xxxx-org
-
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: xx-xx-org
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
 app: todo-app
-
+# "service" is the name of this project. This will also be added to your AWS resource names.
 service: todo
 
-prvoider:
-  name: aws
-  runtime: node20.x
+# try changing default to random
+stages:
+  default:
+    params:
+      tableName: "todo-table-${sls:stage}"
+    resolvers:
+      aws-account-1:
+        type: aws
+        region: xxx-xxx
 
+#service wide settings (for all functions)
+provider:
+  name: aws
+  runtime: nodejs20.x
+  httpApi:
+    cors: true
+    authorizers:
+      someJwtAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.xxxxx.amazonaws.com/xxxxxxxx
+        audience:
+          - xxx-ddd-www-eeee-frer
+  ## permissions for service-wide functions to access DynamoDB
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [TodoTable, Arn]
+  environment:
+    TODO_TABLE: ${param:tableName}
 
 functions:
   api:
+    handler: handler.handler
+    events:
+      - httpApi:
+          path: /todo
+          method: GET
+          authorizer:
+            name: someJwtAuthorizer
+      - httpApi:
+          path: /todo
+          method: POST
+          authorizer:
+            name: someJwtAuthorizer
+      - httpApi:
+          path: /todo/{id}
+          method: PUT
+          authorizer:
+            name: someJwtAuthorizer
+      - httpApi:
+          path: /todo/{id}
+          method: DELETE
+          authorizer:
+            name: someJwtAuthorizer
+      - httpApi:
+          path: /todo
+          method: OPTIONS
 
-
+## resources needed for lambda functions
+## database to store data
 resources:
-  DynamoDB:
+  Resources:
+    TodoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: todoId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: todoId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${param:tableName}
