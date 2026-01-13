@@ -20,3 +20,16 @@ Developing web application with serverless services from AWS has its own set of 
 
 ## Application Flow
 First, the user needs to authenticate with **email** and **password**, where authentication is handled by **AWS Cognito** service. The service returns multiple tokens (`accessToken`, `refreshToken` and `idToken`), which are saved in local storage. The home page views a list of todos in a table. In order to CRUD todo, the request is sent to **API Gateway** which inturn triggers **lambda** function (defined in `backend/handler.js`). An authorizer (`someJwtAuthorizer`) is added to APIs defined in **API Gateway**, which authorizes the request by verifying the JWT token (`idToken` returned from **AWS Cognito**), present in request header.
+
+## Deploying React Application to S3
+We will build the react application and put static build files into S3 bucket, using S3 as frontend hosting. To accomplish this with `serverless framework`, we will use `serverless-finch` plugin to extend the base framework. The plugin requires (by default), the `dist` directory produced after build to be present inside `client` directory, which in turn should be at the root directory where `serverless.yml` config file is present.
+
+```bash
+npm install serverless-finch --save
+
+## deploy build files
+serverless client deploy
+
+## remove bucket and its contents
+serverless client remove
+```
