@@ -29,7 +29,7 @@ const TodoUpdatePopup: React.FC<TodoUpdatePopupProps> = ({ showPopup, setShowPop
   }
 
   return (
-    showPopup && (
+    showPopup ? (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white p-8 rounded-md shadow-md">
           <h2 className="text-2xl font-bold mb-4">Edit Todo</h2>
@@ -83,7 +83,7 @@ const TodoUpdatePopup: React.FC<TodoUpdatePopupProps> = ({ showPopup, setShowPop
           </form>
         </div>
       </div>
-    )
+    ) : <></>
   )
 }
 
